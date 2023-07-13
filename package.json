@@ -1,0 +1,20 @@
+{
+  "name": "create-pull-request-action",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "repository": "git@github.com:Kazuto/create-pull-request-action.git",
+  "author": "Kai Mayer <mail@kazuto.de>",
+  "license": "GPL-3.0",
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json"
+  },
+  "devDependencies": {
+    "@octokit/types": "^11.1.0",
+    "@types/node": "^20.4.2",
+    "typescript": "^5.1.6"
+  },
+  "dependencies": {
+    "@actions/core": "^1.10.0",
+    "@actions/github": "^5.1.1"
+  }
+}

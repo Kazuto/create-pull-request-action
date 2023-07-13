@@ -1,20 +1,17 @@
-name: Create Pull Request
+name: Manage Release Pull Request
 
 on:
   pull_request:
     types:
       - closed
-    branches: [ develop, master ]
+    branches:
+      - develop
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 permissions:
   contents: write
   pull-requests: write
-
-env:
-  REPO_HEAD: ${{ github.base_ref }}
-  REPO_BASE: ${{ github.base_ref == 'develop' && 'master' || 'develop' }}
 
 jobs:
   create-pull-request:
@@ -23,14 +20,22 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
+      - name: Use Node.js 16.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+          cache: 'yarn'
+          cache-dependency-path: yarn.lock
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Build
+        run: yarn build
+
       - name: Create Pull Request
-        uses: actions/github-script@v6
+        uses: ./
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const script = require('./.github/workflows/scripts/create-pull-request.js')
-
-            await script({
-              github,
-              context,
-            })
+          head-branch: 'develop'
+          base-branch: 'master'
