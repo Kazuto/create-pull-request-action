@@ -1,0 +1,20 @@
+name: 'Manage Pull Requests'
+author: 'Kai Mayer'
+description: 'Manage release pull request when merged into development branch'
+
+inputs:
+  github-token:
+    description: 'Github token'
+    required: true
+  head-branch:
+    description: 'The branch to merge from'
+    required: false
+    default: 'develop'
+  base-branch:
+    description: 'The branch to merge into'
+    required: false
+    default: 'master'
+
+runs:
+  using: 'node20'
+  main: 'dist/index.js'
